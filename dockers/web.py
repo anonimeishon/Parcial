@@ -28,7 +28,7 @@ db=init_db
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '12345'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flaskapp'
 mysql = MySQL(app)
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -126,4 +126,4 @@ def writehash():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port = 8000)
+    app.run(debug=True, host='0.0.0.0', port = 80)
