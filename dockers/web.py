@@ -28,10 +28,11 @@ db=init_db
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = '12345'
 app.config['MYSQL_DB'] = 'flaskapp'
+app.config['MYSQL_PORT'] = 3308
 mysql = MySQL(app)
-r = redis.Redis(host='localhost', port=6379, db=0)
+r = redis.Redis(host='127.0.0.1', port=6379, db=0)
 
 #"Gets the temperature and timestamp of the IOTD in the form of a json"
 def jsoniot():
@@ -42,10 +43,10 @@ def jsoniot():
     return (j)
 
 #Adapter to make the json data into variables
-def readjson(j, human):
+def readjson(j, human,get):
     temp = j["temperature"]
     times = j["timestamp"]
-    if human == 0:
+    if (human == 0 and get == 0) or (human == 1 and get == 0):
         addstuffdb(temp, times, human)
     return(temp, times)
 
@@ -106,7 +107,7 @@ def index():
 def asdf(var):
     if var == 'iot':
         j = jsoniot()
-        temp, times =readjson(j,0)
+        temp, times =readjson(j,0,0)
         return(render_template('iot.html', data = temp ))
 
 
@@ -116,11 +117,11 @@ def writehash():
 
     if request.method == 'POST':
         j = jsoniot()
-        temp, times = readjson(j,0)
+        temp, times = readjson(j,0,0)
         return(render_template('post.html', data= temp))
     elif request.method == 'GET':
         j = jsoniot()
-        temp, times = readjson(j,1)
+        temp, times = readjson(j,1,1)
         return render_template('get.html', title= "Show temps", data = temp)
  
 
