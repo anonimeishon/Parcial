@@ -33,6 +33,7 @@ app.config['MYSQL_DB'] = 'flaskapp'
 mysql = MySQL(app)
 r = redis.Redis(host='localhost', port=6379, db=0)
 
+#"Gets the temperature and timestamp of the IOTD in the form of a json"
 def jsoniot():
     y= getparams()
     t = justtime()
@@ -40,13 +41,15 @@ def jsoniot():
     j = json.loads((x))
     return (j)
 
+#Adapter to make the json data into variables
 def readjson(j, human):
     temp = j["temperature"]
     times = j["timestamp"]
-    addstuffdb(temp, times, human)
+    if human == 0:
+        addstuffdb(temp, times, human)
     return(temp, times)
 
-
+#Here's where the service adds the data to both databases
 def addstuffdb(temp, times , human):
     cur = mysql.connection.cursor()
 
@@ -113,11 +116,12 @@ def writehash():
 
     if request.method == 'POST':
         j = jsoniot()
-        temp, times = readjson(j,1)
+        temp, times = readjson(j,0)
         return(render_template('post.html', data= temp))
     elif request.method == 'GET':
-
-        return render_template('get.html', title= "Show temps")
+        j = jsoniot()
+        temp, times = readjson(j,1)
+        return render_template('get.html', title= "Show temps", data = temp)
  
 
 
