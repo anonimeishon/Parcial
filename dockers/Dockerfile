@@ -12,7 +12,7 @@ COPY ./requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
-RUN service redis-server start
+#RUN service redis-server start
 RUN pip3 install -r requirements.txt
 
 COPY . /app

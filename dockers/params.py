@@ -8,7 +8,10 @@ def time():
 
 import urllib.request, json 
 
-
+def justtime():
+    cartagena = timezone('US/Eastern')
+    sa_time = datetime.now(cartagena)
+    return (sa_time.strftime('%H:%M:%S'))
 
 def temperatura():
     with urllib.request.urlopen("http://api.openweathermap.org/data/2.5/weather?id=3687238&appid=9583c3b4fa60a5323f4d1d115a5f2592") as url:
@@ -20,6 +23,9 @@ def temperatura():
 def getparams():
     t = time()
     temp = temperatura()
-    return(t,temp)
+    return(temp)
 if __name__ == '__main__':
-    print(getparams())
+    i = getparams(),justtime()
+    print(i)
+    x = str(getparams())
+    print(x)
