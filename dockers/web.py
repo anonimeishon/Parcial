@@ -4,7 +4,6 @@ import redis, json
 from params import getparams, justtime
 from flask_redis import FlaskRedis
 from flask_mysqldb import MySQL
-from flask_mqtt import Mqtt
 
 
 
@@ -12,12 +11,12 @@ from flask_mqtt import Mqtt
 #weather api http://api.openweathermap.org/data/2.5/weather?id=3687238&appid=9583c3b4fa60a5323f4d1d115a5f2592
 #Flask configs
 app = Flask(__name__)
-mqtt = Mqtt()
 
 redis_host = "localhost"
 redis_port = 6379
 redis_password = ""
 
+#redis db
 def init_db():
     db = redis.StrictRedis(
         host=DB_HOST,
@@ -25,14 +24,17 @@ def init_db():
         db=DB_NO)
     return db
 db=init_db
+r = redis.Redis(host='redis', port=6379, db=0)
 
-app.config['MYSQL_HOST'] = 'localhost'
+#mysql db
+app.config['MYSQL_HOST'] = 'mysql'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '12345'
 app.config['MYSQL_DB'] = 'flaskapp'
-app.config['MYSQL_PORT'] = 3308
+app.config['MYSQL_PORT'] = 3306
 mysql = MySQL(app)
-r = redis.Redis(host='127.0.0.1', port=6379, db=0)
+
+
 
 #"Gets the temperature and timestamp of the IOTD in the form of a json"
 def jsoniot():
