@@ -1,5 +1,5 @@
 # Parcial
-Run with `docker-compose up --build` inside the 'dockers' folder
+Run with `docker-compose up --build`
 
 To simulate the IOT device accessing the service and capturing the temperature, access the route [0.0.0.0/=iot](0.0.0.0/=iot)
 
