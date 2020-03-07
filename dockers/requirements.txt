@@ -1,7 +1,0 @@
-Flask
-redis
-flask-mysqldb
-pyyaml
-pytz
-flask-redis
-flask-mqtt
